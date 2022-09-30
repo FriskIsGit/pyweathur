@@ -1,5 +1,6 @@
 import requests
 import json
+from typing import Tuple
 
 OPENWEATHERMAP_API_KEY = 'e762d6c90e1f1670093b64960d9c7463'
 WEATHER_API_KEY = '14b0cfe10aea45df883141650223009'
@@ -19,9 +20,7 @@ def get_city():
     if (length > LONGEST_NAME_LEN) or (length < 1):
         print("Invalid name, try again.")
         return get_city()
-    if city_name[0].islower():
-        city_name = city_name.capitalize()
-    return city_name
+    return city_name.capitalize()
 
 
 def call_openweather_API(city_name):
@@ -43,7 +42,7 @@ def call_openweather_API(city_name):
 
     print(response.text)
 # -> float, float
-def get_geocoordinates_of(city_name):
+def get_geocoordinates_of(city_name) -> Tuple[int,int]:
     LIMIT = 3
     geo_url = 'https://api.openweathermap.org/geo/1.0/direct?q=%s&limit=%d&appid=%s'
     geo_url = geo_url%(city_name, LIMIT, OPENWEATHERMAP_API_KEY)
@@ -52,12 +51,18 @@ def get_geocoordinates_of(city_name):
     status = response.status_code
     if status != 200:
         print("Status code:", status)
-        return 0, 0
+        return 0,0
 
     json_dictionary = json.loads(response.text)
+    cities = len(json_dictionary)
+    print('Candidate cities:', cities)
+    if cities < 1:
+        return 0,0
     first_city = json_dictionary[0];
-    print('Candidate cities:', len(json_dictionary))
     return 53.5, 9.99
+
+def format(num):
+    round(num, 2)
 
 def call_weather_API(city_name):
     url = 'https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no'
@@ -75,11 +80,16 @@ def call_weather_API(city_name):
     location_dict = json_dictionary['location']
     print(location_dict['name'], location_dict['country'], location_dict['localtime'])
     current = json_dictionary['current']
-    temp = 'Temperature: %d C feels like %d;  %d F feels like %d'
-    temp = temp%(current['temp_c'],current['feelslike_c'],current['temp_f'],current['feelslike_f'])
-    winds = 'Winds:       %d kph;    %d mph'
-    winds = winds%(current['wind_kph'], current['wind_mph'])
+    temp   = 'Temperature: %.1f C feels like %.1f;  %.1f F feels like %.1f'
+    temp   = temp%(current['temp_c'],current['feelslike_c'],current['temp_f'],current['feelslike_f'])
     print(temp)
+    winds  = 'Winds:       %.1f kph;    %.1f mph'
+    winds  = winds%(current['wind_kph'], current['wind_mph'])
     print(winds)
+    precip = 'Rain:        %.1f mm;    %.1f inches'
+    precip = precip%(current['precip_mm'], current['precip_in'])
+    print(precip)
+
+
 if __name__=="__main__":
     main()
