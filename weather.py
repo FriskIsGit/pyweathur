@@ -61,9 +61,6 @@ def get_geocoordinates_of(city_name) -> Tuple[int,int]:
     first_city = json_dictionary[0];
     return 53.5, 9.99
 
-def format(num):
-    round(num, 2)
-
 def call_weather_API(city_name):
     url = 'https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no'
     url = url%(WEATHER_API_KEY, city_name)
@@ -89,7 +86,6 @@ def call_weather_API(city_name):
     precip = 'Rain:        %.1f mm;    %.1f inches'
     precip = precip%(current['precip_mm'], current['precip_in'])
     print(precip)
-
 
 if __name__=="__main__":
     main()
