@@ -3,7 +3,7 @@ import json
 from typing import Tuple
 
 OPENWEATHERMAP_API_KEY = 'e762d6c90e1f1670093b64960d9c7463'
-WEATHER_API_KEY = '14b0cfe10aea45df883141650223009'
+WEATHER_API_KEY = '97e5c007431143b496101324220110'
 LONGEST_NAME_LEN = 58
 def main():
     city_name = get_city()
