@@ -9,8 +9,8 @@ def main():
     city_name = get_city()
     #city_name = 'London'
 
-    print("---> openweathermap:")
-    call_openweather_API(city_name)
+    #print("---> openweathermap:")
+    #call_openweather_API(city_name)
     print("---> weatherapi:")
     call_weather_API(city_name)
 
@@ -77,6 +77,8 @@ def call_weather_API(city_name):
     location_dict = json_dictionary['location']
     print(location_dict['name'], location_dict['country'], location_dict['localtime'])
     current = json_dictionary['current']
+    if 'text' in current:
+        print(current['text'])
     temp   = 'Temperature: %.1f C feels like %.1f;  %.1f F feels like %.1f'
     temp   = temp%(current['temp_c'],current['feelslike_c'],current['temp_f'],current['feelslike_f'])
     print(temp)
