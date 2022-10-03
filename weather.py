@@ -2,7 +2,7 @@ import json
 from typing import Tuple
 import httpx
 
-FORCE_UTF8 = True
+FORCE_UTF8 = False
 
 #to grab geocoordinates
 OPENWEATHERMAP_API_KEY = 'e762d6c90e1f1670093b64960d9c7463'
